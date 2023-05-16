@@ -1,7 +1,7 @@
-import React from 'react'
+import AppRoutes from 'app/AppRoutes'
 
 function App() {
-  return <div>Here we go</div>
+  return <AppRoutes />
 }
 
 export default App
