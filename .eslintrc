@@ -1,5 +1,5 @@
 {
-  "extends": ["react-app", "react-app/jest", "eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": ["react-app", "react-app/jest"],
   "plugins": ["prettier", "react"],
   "settings": {
     "import/resolver": {

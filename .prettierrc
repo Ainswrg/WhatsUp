@@ -1,5 +1,4 @@
 {
-  "printWidth": 90,
   "tabWidth": 2,
   "tabs": false,
   "semi": false,
@@ -9,5 +8,17 @@
   "trailingComma": "none",
   "bracketSpacing": true,
   "arrowParens": "always",
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "importOrder": ["external", "builtin", "index", "sibling", "parent", "internal", "type"],
+  "importOrderSeparation": true,
+  "importStatementFormatter": {
+    "js": {
+      "singleline": false,
+      "multiline": true
+    },
+    "ts": {
+      "singleline": false,
+      "multiline": true
+    }
+  }
 }
