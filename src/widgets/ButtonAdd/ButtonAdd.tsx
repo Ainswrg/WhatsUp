@@ -5,7 +5,7 @@ import { type FC } from 'react'
 
 import { useAppDispatch } from 'app/hooks'
 
-import { setOpenModal } from 'slices/AddContact/slice'
+import { setOpenModal } from 'features/AddContact/slice'
 
 const ButtonAdd: FC = (props) => {
   const dispatch = useAppDispatch()

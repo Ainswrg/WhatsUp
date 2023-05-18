@@ -9,8 +9,8 @@ import Typography from '@mui/material/Typography'
 import { type FormEvent, type FC } from 'react'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { selectIsModalOpen } from 'slices/AddContact/selectors'
-import { setOpenModal } from 'slices/AddContact/slice'
+import { selectIsModalOpen } from 'features/AddContact/selectors'
+import { setOpenModal } from 'features/AddContact/slice'
 
 const style = {
   position: 'absolute' as 'absolute',

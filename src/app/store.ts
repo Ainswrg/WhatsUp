@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { contactReducer } from 'slices/AddContact/slice'
+import { contactReducer } from 'features/AddContact/slice'
 
 import type { ThunkAction, Action } from '@reduxjs/toolkit'
 
