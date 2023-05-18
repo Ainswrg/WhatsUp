@@ -51,7 +51,6 @@ export const authSlice = createSlice({
           state.status = 'success'
           state.authorization = action.payload.stateInstance
           setLocalStorage('auth')
-          console.log('action payload', action.payload)
         }
       )
       .addCase(fetchAuth.rejected, (state: AuthState) => {

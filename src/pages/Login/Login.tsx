@@ -53,8 +53,7 @@ const Login: FC = React.memo(function Login() {
 
   const onSubmit = async (values: AuthParams): Promise<void> => {
     try {
-      const isUserAuth = await dispatch(fetchAuth(values)).unwrap()
-      console.log(isUserAuth)
+      await dispatch(fetchAuth(values)).unwrap()
     } catch (err) {
       console.error(err)
     }

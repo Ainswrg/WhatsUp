@@ -1,12 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper
-} from '@mui/material'
+import { Paper, Box, Grid } from '@mui/material'
 
 import { type FC } from 'react'
 
@@ -15,21 +7,17 @@ import { Contact } from 'widgets/Contact/Contact'
 
 export const ContactList: FC = (props) => {
   return (
-    <TableContainer component={Paper} sx={{ background: '#111B21' }}>
-      <Table aria-label='contacts table'>
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ border: '0.5px solid #404040' }}>
-              <ButtonAdd />
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <div style={{ height: '70vh', overflow: 'auto' }}>
+    <Box component={Paper} sx={{ background: '#111B21' }}>
+      <Grid container direction='column'>
+        <Grid item sx={{ borderBottom: '0.5px solid #404040' }}>
+          <ButtonAdd />
+        </Grid>
+        <Grid item xs>
+          <Box sx={{ height: '70vh', overflow: 'auto' }}>
             <Contact />
-          </div>
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }

@@ -1,11 +1,5 @@
-import {
-  Box,
-  ListItemAvatar,
-  TableCell,
-  TableRow,
-  Typography
-} from '@mui/material'
-import { type FC } from 'react'
+import { Box, Grid, Typography } from '@mui/material'
+import { FC } from 'react'
 
 import { AvatarBase } from 'widgets/Avatar/Avatar'
 
@@ -15,7 +9,7 @@ export const Contact: FC = (props) => {
   }
 
   return (
-    <TableRow
+    <Box
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -29,36 +23,28 @@ export const Contact: FC = (props) => {
       }}
       onClick={handleClick}
     >
-      <Box sx={{ display: 'flex' }}>
-        <TableCell
-          colSpan={2}
-          sx={{
-            padding: '0',
-            border: '0',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          <ListItemAvatar
+      <Grid container alignItems='center'>
+        <Grid item>
+          <Box
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              padding: '0'
+              paddingRight: '10px'
             }}
           >
             <AvatarBase />
-          </ListItemAvatar>
-        </TableCell>
-        <TableCell colSpan={8} sx={{ padding: '0', border: '0' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', color: '#fff' }}>
-            <Typography variant={'body1'}>{'contact.name'}</Typography>
-            <Typography variant={'body2'}>{'last message'}</Typography>
           </Box>
-        </TableCell>
-      </Box>
-      <TableCell colSpan={2} align='right' sx={{ border: '0' }}>
-        <Typography sx={{ color: '#404040' }}>{'time'}</Typography>
-      </TableCell>
-    </TableRow>
+        </Grid>
+        <Grid item xs={8} sx={{ padding: '0' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', color: '#fff' }}>
+            <Typography variant='body1'>{'contact.name'}</Typography>
+            <Typography variant='body2'>{'last message'}</Typography>
+          </Box>
+        </Grid>
+        <Grid item sx={{ border: '0' }}>
+          <Typography sx={{ color: '#404040' }}>{'time'}</Typography>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
