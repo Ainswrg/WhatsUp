@@ -1,15 +1,20 @@
 import {
-  AnyAction,
-  PayloadAction,
-  Reducer,
   createAsyncThunk,
-  createSlice
+  createSlice,
+  PayloadAction,
+  Reducer
 } from '@reduxjs/toolkit'
 
 import { AuthParams, AuthState, IAuth } from 'entities/Authentication'
 
 import axios from 'shared/axios'
 import { getLocalStorage, setLocalStorage } from 'shared/locStorage'
+
+interface IMeta {
+  requestId: string
+  requestStatus: string
+  arg: AuthParams
+}
 
 export const fetchAuth = createAsyncThunk<IAuth, AuthParams>(
   'auth/fetchAuth',
@@ -21,13 +26,11 @@ export const fetchAuth = createAsyncThunk<IAuth, AuthParams>(
   }
 )
 
-interface IAction {
-  stateInstance: 'authorization' | null
-}
-
 const initialState: AuthState = {
   authorization: getLocalStorage(),
-  status: 'idle'
+  status: 'idle',
+  idInstance: null,
+  apiTokenInstance: null
 }
 
 export const authSlice = createSlice({
@@ -36,6 +39,8 @@ export const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.authorization = null
+      state.idInstance = null
+      state.apiTokenInstance = null
       setLocalStorage(null)
     }
   },
@@ -47,10 +52,13 @@ export const authSlice = createSlice({
       })
       .addCase(
         fetchAuth.fulfilled,
-        (state: AuthState, action: PayloadAction<IAction>) => {
+        (state: AuthState, action: PayloadAction<IAuth, string, IMeta>) => {
           state.status = 'success'
           state.authorization = action.payload.stateInstance
+          state.idInstance = action.meta.arg.idInstance
+          state.apiTokenInstance = action.meta.arg.apiTokenInstance
           setLocalStorage('auth')
+          console.log('action: ', action)
         }
       )
       .addCase(fetchAuth.rejected, (state: AuthState) => {
@@ -60,5 +68,5 @@ export const authSlice = createSlice({
   }
 })
 
-export const authReducer: Reducer<AuthState, AnyAction> = authSlice.reducer
+export const authReducer: Reducer<AuthState> = authSlice.reducer
 export const { logout } = authSlice.actions

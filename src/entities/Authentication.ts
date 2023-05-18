@@ -1,5 +1,5 @@
 interface IAuth {
-  stateInstance: null
+  stateInstance: null | string
 }
 
 interface AuthParams {
@@ -9,6 +9,8 @@ interface AuthParams {
 
 interface AuthState {
   authorization: string | null
+  idInstance: string | null
+  apiTokenInstance: string | null
   status: 'idle' | 'loading' | 'success' | 'failed'
 }
 

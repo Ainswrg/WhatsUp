@@ -60,7 +60,7 @@ const Login: FC = React.memo(function Login() {
   }
 
   return (
-    <Container sx={classes.root}>
+    <Container sx={classes.root} maxWidth={false}>
       <Paper sx={classes.window}>
         <Typography sx={classes.title} variant='h5'>
           Sign In
