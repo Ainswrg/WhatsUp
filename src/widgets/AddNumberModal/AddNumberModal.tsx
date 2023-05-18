@@ -1,4 +1,4 @@
-import { FormHelperText, Paper, TextField } from '@mui/material'
+import { Paper, TextField } from '@mui/material'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -6,11 +6,13 @@ import Fade from '@mui/material/Fade'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 
-import { type FormEvent, type FC } from 'react'
+import { type FC } from 'react'
+
+import { useForm } from 'react-hook-form'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { selectIsModalOpen } from 'features/AddContact/selectors'
-import { setOpenModal } from 'features/AddContact/slice'
+import { setOpenModal, setChatId } from 'features/AddContact/slice'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -28,17 +30,28 @@ export const AddNumberModal: FC = () => {
   const dispatch = useAppDispatch()
   const open = useAppSelector(selectIsModalOpen)
 
+  interface Params {
+    phone: string
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid }
+  } = useForm<Params>({
+    defaultValues: {
+      phone: ''
+    },
+    mode: 'onChange'
+  })
+
   const handleClose = (): void => {
     dispatch(setOpenModal(false))
   }
 
-  let status = 'success'
-  const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault()
-    const phoneInput = e.currentTarget.elements.namedItem('phone')
-    const phone = phoneInput instanceof HTMLInputElement ? phoneInput.value : ''
-    // const contact = { phone }
-    // await dispatch(addContact(contact))
+  const onSubmit = async (value: Params) => {
+    dispatch(setChatId(value.phone))
+    handleClose()
   }
 
   return (
@@ -62,31 +75,24 @@ export const AddNumberModal: FC = () => {
               <Typography variant='h5' textAlign={'center'}>
                 Add contact
               </Typography>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
                   label='Phone'
-                  name='phone'
-                  helperText={''}
                   fullWidth
                   required
+                  {...register('phone', {
+                    required: 'phone is required field!',
+                    minLength: 10
+                  })}
+                  error={Boolean(errors.phone?.message)}
+                  helperText={errors.phone?.message}
                 />
-                {status === 'failed' ? (
-                  <FormHelperText
-                    sx={{ display: 'flex', justifyContent: 'center' }}
-                    error
-                  >
-                    {'Error'}
-                  </FormHelperText>
-                ) : (
-                  <Typography sx={{ paddingTop: '23px' }}></Typography>
-                )}
                 <Button
-                  disabled={status === 'loading'}
+                  disabled={!isValid}
                   type='submit'
                   size='large'
                   variant='contained'
                   fullWidth
-                  onClick={handleClose}
                 >
                   Add
                 </Button>
