@@ -1,6 +1,9 @@
 import { Container, Grid } from '@mui/material'
 
-import { type FC } from 'react'
+import { useEffect, type FC } from 'react'
+
+import { useAppDispatch } from 'app/hooks'
+import { getChats } from 'features/Chat/slice'
 
 import { AddNumberModal } from 'widgets/AddNumberModal/AddNumberModal'
 import { ChatWindow } from 'widgets/ChatWindow/ChatWindow'
@@ -23,6 +26,11 @@ const classes = {
 
 const Chat: FC = () => {
   const backgroundImageUrl = 'url("background.jpg")'
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getChats())
+  }, [])
 
   return (
     <>

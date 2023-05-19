@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import { contactReducer } from 'features/AddContact/slice'
 import { authReducer } from 'features/Auth/slice'
+import { chatReducer } from 'features/Chat/slice'
 
 import type { ThunkAction, Action } from '@reduxjs/toolkit'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    contact: contactReducer
+    contact: contactReducer,
+    chat: chatReducer
   }
 })
 
