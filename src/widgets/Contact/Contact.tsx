@@ -1,11 +1,18 @@
 import { Box, Grid, Typography } from '@mui/material'
+
 import { FC } from 'react'
+
+import { Chat } from 'entities/Chat'
 
 import { AvatarBase } from 'widgets/Avatar/Avatar'
 
-export const Contact: FC = (props) => {
+interface Props {
+  chat: Chat
+}
+
+export const Contact: FC<Props> = ({ chat }) => {
   const handleClick = () => {
-    console.log('click')
+    console.log('click', chat.id)
   }
 
   return (
@@ -37,12 +44,10 @@ export const Contact: FC = (props) => {
         </Grid>
         <Grid item xs={8} sx={{ padding: '0' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', color: '#fff' }}>
-            <Typography variant='body1'>{'contact.name'}</Typography>
-            <Typography variant='body2'>{'last message'}</Typography>
+            <Typography variant='body1'>
+              {chat.name || chat.id.replace(/[@g.us | @c.us]/g, '')}
+            </Typography>
           </Box>
-        </Grid>
-        <Grid item sx={{ border: '0' }}>
-          <Typography sx={{ color: '#404040' }}>{'time'}</Typography>
         </Grid>
       </Grid>
     </Box>
