@@ -5,6 +5,8 @@ import {
   Reducer
 } from '@reduxjs/toolkit'
 
+import Cookies from 'js-cookie'
+
 import { AuthParams, AuthState, IAuth } from 'entities/Authentication'
 
 import axios from 'shared/axios'
@@ -28,9 +30,7 @@ export const fetchAuth = createAsyncThunk<IAuth, AuthParams>(
 
 const initialState: AuthState = {
   authorization: getLocalStorage(),
-  status: 'idle',
-  idInstance: null,
-  apiTokenInstance: null
+  status: 'idle'
 }
 
 export const authSlice = createSlice({
@@ -39,8 +39,8 @@ export const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.authorization = null
-      state.idInstance = null
-      state.apiTokenInstance = null
+      Cookies.remove('idInstance')
+      Cookies.remove('apiTokenInstance')
       setLocalStorage(null)
     }
   },
@@ -55,10 +55,9 @@ export const authSlice = createSlice({
         (state: AuthState, action: PayloadAction<IAuth, string, IMeta>) => {
           state.status = 'success'
           state.authorization = action.payload.stateInstance
-          state.idInstance = action.meta.arg.idInstance
-          state.apiTokenInstance = action.meta.arg.apiTokenInstance
+          Cookies.set('idInstance', action.meta.arg.idInstance)
+          Cookies.set('apiTokenInstance', action.meta.arg.apiTokenInstance)
           setLocalStorage('auth')
-          console.log('action: ', action)
         }
       )
       .addCase(fetchAuth.rejected, (state: AuthState) => {

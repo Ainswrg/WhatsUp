@@ -5,7 +5,8 @@ import {
   Reducer
 } from '@reduxjs/toolkit'
 
-import { RootState } from 'app/store'
+import Cookies from 'js-cookie'
+
 import { Chat, ChatState } from 'entities/Chat'
 
 import axios from 'shared/axios'
@@ -13,7 +14,8 @@ import axios from 'shared/axios'
 export const fetchChat = createAsyncThunk(
   'chat/fetchChat',
   async (message, { getState }) => {
-    const { idInstance, apiTokenInstance } = (getState() as RootState).auth
+    const idInstance = Cookies.get('idInstance')
+    const apiTokenInstance = Cookies.get('apiTokenInstance')
     await axios.post(
       `waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
       message
@@ -24,7 +26,8 @@ export const fetchChat = createAsyncThunk(
 export const getChats = createAsyncThunk(
   'chat/fetchChats',
   async (_, { getState }) => {
-    const { idInstance, apiTokenInstance } = (getState() as RootState).auth
+    const idInstance = Cookies.get('idInstance')
+    const apiTokenInstance = Cookies.get('apiTokenInstance')
     const response = await axios.get(
       `waInstance${idInstance}/getChats/${apiTokenInstance}`
     )

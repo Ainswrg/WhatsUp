@@ -9,8 +9,6 @@ interface AuthParams {
 
 interface AuthState {
   authorization: string | null
-  idInstance: string | null
-  apiTokenInstance: string | null
   status: 'idle' | 'loading' | 'success' | 'failed'
 }
 
