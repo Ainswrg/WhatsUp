@@ -7,10 +7,25 @@ interface Chat {
   name?: string
 }
 
-interface ChatState {
+interface ChatHistory {
+  type: string
+  idMessage: string
+  timestamp: number
+  typeMessage: string
   chatId: string
-  message: string
-  chats: Chat[]
+  downloadUrl?: string
+  caption?: string
+  fileName?: string
+  jpegThumbnail?: string
+  statusMessage: string
+  sendByApi: false
+  textMessage?: string
 }
 
-export type { Chat, ChatState }
+interface ChatState {
+  message: string
+  chats: Chat[]
+  chatHistory: ChatHistory[]
+}
+
+export type { Chat, ChatState, ChatHistory }
