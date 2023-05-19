@@ -18,9 +18,10 @@ export const ContactList: FC = (props) => {
         </Grid>
         <Grid item xs>
           <Box sx={{ height: '70vh', overflow: 'auto' }}>
-            {chats.map((contact) => {
-              return <Contact key={contact.id} chat={contact} />
-            })}
+            {chats.map(
+              (contact) =>
+                !contact.name && <Contact key={contact.id} chat={contact} />
+            )}
           </Box>
         </Grid>
       </Grid>

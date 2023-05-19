@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { selectIsModalOpen } from 'features/AddContact/selectors'
 import { setOpenModal, setChatId } from 'features/AddContact/slice'
+import { convertNumberToWhatsAppId } from 'shared/convertNumberToWhatsUpId'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -50,7 +51,8 @@ export const AddNumberModal: FC = () => {
   }
 
   const onSubmit = async (value: Params) => {
-    dispatch(setChatId(value.phone))
+    const formattedNumber = convertNumberToWhatsAppId(value.phone)
+    dispatch(setChatId(formattedNumber))
     handleClose()
   }
 
