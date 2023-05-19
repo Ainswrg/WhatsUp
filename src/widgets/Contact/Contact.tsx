@@ -2,8 +2,10 @@ import { Box, Grid, Typography } from '@mui/material'
 
 import { FC } from 'react'
 
+import { useAppDispatch } from 'app/hooks'
 import { Chat } from 'entities/Chat'
 
+import { setChatId } from 'features/AddContact/slice'
 import { AvatarBase } from 'widgets/Avatar/Avatar'
 
 interface Props {
@@ -11,8 +13,9 @@ interface Props {
 }
 
 export const Contact: FC<Props> = ({ chat }) => {
+  const dispatch = useAppDispatch()
   const handleClick = () => {
-    console.log('click', chat.id)
+    dispatch(setChatId(chat.id))
   }
 
   return (

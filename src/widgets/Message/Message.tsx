@@ -23,10 +23,10 @@ const contact = {
   borderRadius: '15px'
 }
 
-export const Message: FC<IMessage> = ({ user, message }) => {
+export const Message: FC<IMessage> = ({ chatId, textMessage }) => {
   const classes = useStyles()
   const me: string = 'User 1'
-  const isMe = Boolean(user === me)
+  const isMe = Boolean(chatId === me)
 
   return (
     <Grid
@@ -40,8 +40,8 @@ export const Message: FC<IMessage> = ({ user, message }) => {
     >
       <Avatar className={classes.avatar} />
       <Grid className={classes.messageBody}>
-        <Typography variant={'h6'}>{user}</Typography>
-        <Typography variant={'body2'}>{message}</Typography>
+        <Typography variant={'h6'}>{chatId}</Typography>
+        <Typography variant={'body2'}>{textMessage}</Typography>
       </Grid>
     </Grid>
   )

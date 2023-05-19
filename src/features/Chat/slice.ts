@@ -18,7 +18,6 @@ export const sendMessage = createAsyncThunk<void, string>(
     const { chatId } = (getState() as RootState).contact
     const idInstance = Cookies.get('idInstance')
     const apiTokenInstance = Cookies.get('apiTokenInstance')
-    console.log('message from slice: ', message)
     await axios
       .post(`waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
         chatId: chatId,
