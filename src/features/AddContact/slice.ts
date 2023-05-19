@@ -7,10 +7,12 @@ import {
 
 export interface ContactState {
   isOpenModal: boolean
+  chatId: string
 }
 
 const initialState: ContactState = {
-  isOpenModal: false
+  isOpenModal: false,
+  chatId: ''
 }
 
 export const contactSlice = createSlice({
@@ -19,10 +21,13 @@ export const contactSlice = createSlice({
   reducers: {
     setOpenModal: (state, action: PayloadAction<boolean>) => {
       state.isOpenModal = action.payload
+    },
+    setChatId: (state, action: PayloadAction<string>) => {
+      state.chatId = action.payload
     }
   }
 })
 
 export const contactReducer: Reducer<ContactState, AnyAction> =
   contactSlice.reducer
-export const { setOpenModal } = contactSlice.actions
+export const { setOpenModal, setChatId } = contactSlice.actions
