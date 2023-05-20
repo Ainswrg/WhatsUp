@@ -1,15 +1,21 @@
 import { Paper, TextField, Button, Grid, type Theme, Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
-import { useEffect, type FC } from 'react'
+import { useEffect, type FC, useRef } from 'react'
 
 import { useForm } from 'react-hook-form'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { selectChatId } from 'features/AddContact/selectors'
+import { selectIsAuth } from 'features/Auth/selectors'
 import { selectChatHistory } from 'features/Chat/selectors'
 
-import { getChatHistory, sendMessage } from 'features/Chat/slice'
+import {
+  deleteNotification,
+  fetchNotification,
+  getChatHistory,
+  sendMessage
+} from 'features/Chat/slice'
 import { Message } from 'widgets/Message/Message'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -32,6 +38,8 @@ export const ChatWindow: FC = () => {
   const chatHistory = useAppSelector(selectChatHistory)
   const classes = useStyles()
   const chatId = useAppSelector(selectChatId)
+  const isAuth = useAppSelector(selectIsAuth)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     if (chatId) {
@@ -39,8 +47,29 @@ export const ChatWindow: FC = () => {
     }
   }, [chatId])
 
+  useEffect(() => {
+    const pollNotifications = async () => {
+      const response = await dispatch(fetchNotification()).unwrap()
+      console.log('notification:', response)
+
+      if (response?.receiptId) {
+        await dispatch(deleteNotification(response.receiptId))
+      }
+    }
+    if (isAuth) {
+      intervalRef.current = setInterval(() => {
+        pollNotifications()
+      }, 6000)
+    } else {
+      clearInterval(intervalRef.current as NodeJS.Timeout)
+    }
+
+    return () => {
+      clearInterval(intervalRef.current as NodeJS.Timeout)
+    }
+  }, [isAuth])
+
   const onSubmit = (value: MessageBody) => {
-    console.log('values :', value.message)
     dispatch(sendMessage(value.message))
     dispatch(getChatHistory(chatId))
   }
@@ -64,9 +93,9 @@ export const ChatWindow: FC = () => {
     >
       <Grid sx={{ height: '90%' }}>
         <Box sx={{ height: '80vh', overflowY: 'auto' }}>
-          {[...chatHistory].reverse().map((user) => (
+          {[...chatHistory].reverse().map((user, id) => (
             <Message
-              key={user.idMessage}
+              key={id}
               chatId={user.chatId}
               textMessage={user.textMessage}
             />

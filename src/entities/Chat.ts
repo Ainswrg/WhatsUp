@@ -22,10 +22,29 @@ interface ChatHistory {
   textMessage?: string
 }
 
+interface INotification {
+  receiptId: number
+  body: {
+    typeWebhook: string
+    chatId: string
+    instanceData: {
+      idInstance: number
+      wid: string
+      typeInstance: string
+    }
+    timestamp: number
+    idMessage: string
+    status: string
+    sendByApi: boolean
+  }
+}
 interface ChatState {
   message: string
   chats: Chat[]
   chatHistory: ChatHistory[]
+  notification: INotification | null
+  deleteStatus: boolean
+  notificationLog: INotification[]
 }
 
-export type { Chat, ChatState, ChatHistory }
+export type { Chat, ChatState, ChatHistory, INotification }

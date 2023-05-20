@@ -8,7 +8,7 @@ import {
 import Cookies from 'js-cookie'
 
 import { RootState } from 'app/store'
-import { Chat, ChatHistory, ChatState } from 'entities/Chat'
+import { Chat, ChatHistory, ChatState, INotification } from 'entities/Chat'
 
 import axios from 'shared/axios'
 
@@ -56,15 +56,48 @@ export const getChatHistory = createAsyncThunk<ChatHistory[], string>(
       .catch((error) => {
         console.error('Error:', error)
       })
-    const chatsHistory = response?.data
-    return chatsHistory
+    const chatHistory = response?.data
+    return chatHistory
+  }
+)
+
+export const fetchNotification = createAsyncThunk<INotification>(
+  'chat/fetchNotification',
+  async () => {
+    const idInstance = Cookies.get('idInstance')
+    const apiTokenInstance = Cookies.get('apiTokenInstance')
+    const response = await axios
+      .get(`waInstance${idInstance}/receiveNotification/${apiTokenInstance}`)
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+    const data = response?.data
+    return data
+  }
+)
+
+export const deleteNotification = createAsyncThunk<void, number>(
+  'chat/deleteNotification',
+  async (id) => {
+    const idInstance = Cookies.get('idInstance')
+    const apiTokenInstance = Cookies.get('apiTokenInstance')
+    await axios
+      .delete(
+        `waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${id}`
+      )
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
 )
 
 const initialState: ChatState = {
   message: '',
   chats: [],
-  chatHistory: []
+  chatHistory: [],
+  notification: null,
+  notificationLog: [],
+  deleteStatus: false
 }
 
 export const chatSlice = createSlice({
@@ -110,6 +143,24 @@ export const chatSlice = createSlice({
       .addCase(getChatHistory.rejected, (state: ChatState) => {
         state.chatHistory = []
       })
+      .addCase(fetchNotification.pending, (state: ChatState) => {
+        state.notification = null
+      })
+      .addCase(
+        fetchNotification.fulfilled,
+        (state: ChatState, action: PayloadAction<INotification>) => {
+          state.notification = action.payload
+          state.notificationLog.push(action.payload)
+        }
+      )
+      .addCase(fetchNotification.rejected, (state: ChatState) => {
+        state.notification = null
+      })
+      .addCase(deleteNotification.pending, (state: ChatState) => {})
+      .addCase(deleteNotification.fulfilled, (state: ChatState) => {
+        state.notification = null
+      })
+      .addCase(deleteNotification.rejected, (state: ChatState) => {})
   }
 })
 
