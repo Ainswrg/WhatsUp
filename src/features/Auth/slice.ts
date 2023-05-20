@@ -7,24 +7,22 @@ import {
 
 import Cookies from 'js-cookie'
 
-import { AuthParams, AuthState, IAuth } from 'entities/Authentication'
+import { AuthParams, AuthState, IAuth, IMeta } from 'entities/Authentication'
 
 import axios from 'shared/axios'
 import { getLocalStorage, setLocalStorage } from 'shared/locStorage'
 
-interface IMeta {
-  requestId: string
-  requestStatus: string
-  arg: AuthParams
-}
-
 export const fetchAuth = createAsyncThunk<IAuth, AuthParams>(
   'auth/fetchAuth',
   async ({ idInstance, apiTokenInstance }) => {
-    const { data } = await axios.get<IAuth>(
-      `waInstance${idInstance}/getStateInstance/${apiTokenInstance}`
-    )
-    return data
+    try {
+      const { data } = await axios.get<IAuth>(
+        `waInstance${idInstance}/getStateInstance/${apiTokenInstance}`
+      )
+      return data
+    } catch (error) {
+      return await Promise.reject(error)
+    }
   }
 )
 

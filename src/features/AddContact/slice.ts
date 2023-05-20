@@ -5,10 +5,7 @@ import {
   type Reducer
 } from '@reduxjs/toolkit'
 
-export interface ContactState {
-  isOpenModal: boolean
-  chatId: string
-}
+import { ContactState } from 'entities/Chat'
 
 const initialState: ContactState = {
   isOpenModal: false,

@@ -12,4 +12,10 @@ interface AuthState {
   status: 'idle' | 'loading' | 'success' | 'failed'
 }
 
-export type { IAuth, AuthParams, AuthState }
+interface IMeta {
+  requestId: string
+  requestStatus: string
+  arg: AuthParams
+}
+
+export type { IAuth, AuthParams, AuthState, IMeta }

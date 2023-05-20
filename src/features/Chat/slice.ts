@@ -15,62 +15,69 @@ import axios from 'shared/axios'
 export const sendMessage = createAsyncThunk<void, string>(
   'chat/fetchChat',
   async (message, { getState }) => {
-    const { chatId } = (getState() as RootState).contact
-    const idInstance = Cookies.get('idInstance')
-    const apiTokenInstance = Cookies.get('apiTokenInstance')
-    await axios
-      .post(`waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
-        chatId: chatId,
-        message: message
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+    try {
+      const { chatId } = (getState() as RootState).contact
+      const idInstance = Cookies.get('idInstance')
+      const apiTokenInstance = Cookies.get('apiTokenInstance')
+      await axios.post(
+        `waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
+        {
+          chatId: chatId,
+          message: message
+        }
+      )
+    } catch (error) {
+      return await Promise.reject(error)
+    }
   }
 )
 
 export const getChats = createAsyncThunk(
   'chat/fetchChats',
   async (_, { getState }) => {
-    const idInstance = Cookies.get('idInstance')
-    const apiTokenInstance = Cookies.get('apiTokenInstance')
-    const response = await axios
-      .get(`waInstance${idInstance}/getChats/${apiTokenInstance}`)
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-    const chats = response?.data
-    return chats
+    try {
+      const idInstance = Cookies.get('idInstance')
+      const apiTokenInstance = Cookies.get('apiTokenInstance')
+      const response = await axios.get(
+        `waInstance${idInstance}/getChats/${apiTokenInstance}`
+      )
+      const chats = response?.data
+      return chats
+    } catch (error) {
+      return await Promise.reject(error)
+    }
   }
 )
 
 export const fetchNotification = createAsyncThunk<INotification>(
   'chat/fetchNotification',
   async () => {
-    const idInstance = Cookies.get('idInstance')
-    const apiTokenInstance = Cookies.get('apiTokenInstance')
-    const response = await axios
-      .get(`waInstance${idInstance}/receiveNotification/${apiTokenInstance}`)
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-    const data = response?.data
-    return data
+    try {
+      const idInstance = Cookies.get('idInstance')
+      const apiTokenInstance = Cookies.get('apiTokenInstance')
+      const response = await axios.get(
+        `waInstance${idInstance}/receiveNotification/${apiTokenInstance}`
+      )
+      const data = response?.data
+      return data
+    } catch (error) {
+      return await Promise.reject(error)
+    }
   }
 )
 
 export const deleteNotification = createAsyncThunk<void, number>(
   'chat/deleteNotification',
   async (id) => {
-    const idInstance = Cookies.get('idInstance')
-    const apiTokenInstance = Cookies.get('apiTokenInstance')
-    await axios
-      .delete(
+    try {
+      const idInstance = Cookies.get('idInstance')
+      const apiTokenInstance = Cookies.get('apiTokenInstance')
+      await axios.delete(
         `waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${id}`
       )
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+    } catch (error) {
+      return await Promise.reject(error)
+    }
   }
 )
 
