@@ -5,7 +5,7 @@ import {
   type Reducer
 } from '@reduxjs/toolkit'
 
-import { ContactState } from 'entities/Chat'
+import { ContactState } from 'entities/Contact'
 
 const initialState: ContactState = {
   isOpenModal: false,

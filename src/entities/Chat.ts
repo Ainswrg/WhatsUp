@@ -44,9 +44,4 @@ interface ChatState {
   notificationLog: INotification[]
 }
 
-interface ContactState {
-  isOpenModal: boolean
-  chatId: string
-}
-
-export type { Chat, ChatState, INotification, ContactState }
+export type { Chat, ChatState, INotification }
