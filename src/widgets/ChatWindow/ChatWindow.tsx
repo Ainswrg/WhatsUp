@@ -33,6 +33,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'space-between'
+  },
+  image: {
+    paddingTop: '2rem',
+    maxWidth: '100%',
+    height: 'auto'
+  },
+  title: {
+    textAlign: 'center',
+    paddingTop: '1.2rem'
   }
 }))
 
@@ -147,15 +156,14 @@ export const ChatWindow: FC = () => {
       <Grid
         justifyContent={'center'}
         alignItems={'center'}
-        sx={{ display: 'content' }}
+        direction={'column'}
+        sx={{ display: 'flex' }}
       >
-        <img src='web.png' alt='' style={{ paddingTop: '1rem' }} />
-        <Typography variant={'h5'} sx={{ textAlign: 'center' }}>
+        <img src='web.png' alt='' className={classes.image} />
+        <Typography variant={'h5'} className={classes.title}>
           Web
         </Typography>
-        <Typography sx={{ textAlign: 'center', paddingTop: '1.2rem' }}>
-          Get and send message
-        </Typography>
+        <Typography className={classes.title}>Get and send message</Typography>
       </Grid>
     </Paper>
   )
