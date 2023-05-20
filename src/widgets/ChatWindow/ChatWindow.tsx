@@ -14,7 +14,6 @@ import { useEffect, type FC, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { selectChatId } from 'features/AddContact/selectors'
 import { selectIsAuth } from 'features/Auth/selectors'
 import { selectNotificationLog } from 'features/Chat/selectors'
 
@@ -23,6 +22,7 @@ import {
   fetchNotification,
   sendMessage
 } from 'features/Chat/slice'
+import { selectChatId } from 'features/Contact/selectors'
 import { Message } from 'widgets/Message/Message'
 
 const useStyles = makeStyles((theme: Theme) => ({

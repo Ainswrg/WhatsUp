@@ -5,8 +5,8 @@ import React, { type FC } from 'react'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 
-import { selectChatId } from 'features/AddContact/selectors'
 import { logout } from 'features/Auth/slice'
+import { selectChatId } from 'features/Contact/selectors'
 import { AvatarBase } from 'widgets/Avatar/Avatar'
 
 export const Navbar: FC = () => {

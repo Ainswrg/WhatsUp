@@ -5,7 +5,7 @@ import { FC } from 'react'
 import { useAppDispatch } from 'app/hooks'
 import { Chat } from 'entities/Chat'
 
-import { setChatId } from 'features/AddContact/slice'
+import { setChatId } from 'features/Contact/slice'
 import { AvatarBase } from 'widgets/Avatar/Avatar'
 
 interface Props {

@@ -11,8 +11,8 @@ import { type FC } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { selectIsModalOpen } from 'features/AddContact/selectors'
-import { setOpenModal, setChatId } from 'features/AddContact/slice'
+import { selectIsModalOpen } from 'features/Contact/selectors'
+import { setOpenModal, setChatId } from 'features/Contact/slice'
 import { convertNumberToWhatsAppId } from 'shared/convertNumberToWhatsUpId'
 
 const style = {
