@@ -8,7 +8,7 @@ import {
 import Cookies from 'js-cookie'
 
 import { RootState } from 'app/store'
-import { Chat, ChatHistory, ChatState, INotification } from 'entities/Chat'
+import { Chat, ChatState, INotification } from 'entities/Chat'
 
 import axios from 'shared/axios'
 
@@ -44,23 +44,6 @@ export const getChats = createAsyncThunk(
   }
 )
 
-export const getChatHistory = createAsyncThunk<ChatHistory[], string>(
-  'chat/fetchChatHistory',
-  async (chatId, { getState }) => {
-    const idInstance = Cookies.get('idInstance')
-    const apiTokenInstance = Cookies.get('apiTokenInstance')
-    const response = await axios
-      .post(`waInstance${idInstance}/getChatHistory/${apiTokenInstance}`, {
-        chatId: chatId
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-    const chatHistory = response?.data
-    return chatHistory
-  }
-)
-
 export const fetchNotification = createAsyncThunk<INotification>(
   'chat/fetchNotification',
   async () => {
@@ -92,12 +75,8 @@ export const deleteNotification = createAsyncThunk<void, number>(
 )
 
 const initialState: ChatState = {
-  message: '',
   chats: [],
-  chatHistory: [],
-  notification: null,
-  notificationLog: [],
-  deleteStatus: false
+  notificationLog: []
 }
 
 export const chatSlice = createSlice({
@@ -106,19 +85,6 @@ export const chatSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(sendMessage.pending, (state: ChatState) => {
-        state.message = ''
-      })
-      .addCase(
-        sendMessage.fulfilled,
-        (state: ChatState, action: PayloadAction<any>) => {
-          console.log('action: ', action)
-          state.message = action.payload?.message
-        }
-      )
-      .addCase(sendMessage.rejected, (state: ChatState) => {
-        state.message = ''
-      })
       .addCase(getChats.pending, (state: ChatState) => {
         state.chats = []
       })
@@ -131,38 +97,14 @@ export const chatSlice = createSlice({
       .addCase(getChats.rejected, (state: ChatState) => {
         state.chats = []
       })
-      .addCase(getChatHistory.pending, (state: ChatState) => {
-        state.chatHistory = []
-      })
-      .addCase(
-        getChatHistory.fulfilled,
-        (state: ChatState, action: PayloadAction<ChatHistory[]>) => {
-          state.chatHistory = action.payload
-        }
-      )
-      .addCase(getChatHistory.rejected, (state: ChatState) => {
-        state.chatHistory = []
-      })
-      .addCase(fetchNotification.pending, (state: ChatState) => {
-        state.notification = null
-      })
       .addCase(
         fetchNotification.fulfilled,
         (state: ChatState, action: PayloadAction<INotification>) => {
-          state.notification = action.payload
           if (action.payload?.body?.hasOwnProperty('senderData')) {
             state.notificationLog.push(action.payload)
           }
         }
       )
-      .addCase(fetchNotification.rejected, (state: ChatState) => {
-        state.notification = null
-      })
-      .addCase(deleteNotification.pending, (state: ChatState) => {})
-      .addCase(deleteNotification.fulfilled, (state: ChatState) => {
-        state.notification = null
-      })
-      .addCase(deleteNotification.rejected, (state: ChatState) => {})
   }
 })
 

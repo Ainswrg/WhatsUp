@@ -7,21 +7,6 @@ interface Chat {
   name?: string
 }
 
-interface ChatHistory {
-  type: string
-  idMessage: string
-  timestamp: number
-  typeMessage: string
-  chatId: string
-  downloadUrl?: string
-  caption?: string
-  fileName?: string
-  jpegThumbnail?: string
-  statusMessage: string
-  sendByApi: false
-  textMessage?: string
-}
-
 interface INotification {
   receiptId: number
   body: {
@@ -55,12 +40,8 @@ interface INotification {
   }
 }
 interface ChatState {
-  message: string
   chats: Chat[]
-  chatHistory: ChatHistory[]
-  notification: INotification | null
-  deleteStatus: boolean
   notificationLog: INotification[]
 }
 
-export type { Chat, ChatState, ChatHistory, INotification }
+export type { Chat, ChatState, INotification }

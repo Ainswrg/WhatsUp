@@ -75,11 +75,13 @@ export const ChatWindow: FC = () => {
 
   const onSubmit = (value: MessageBody) => {
     dispatch(sendMessage(value.message))
+    reset()
   }
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isValid }
   } = useForm<MessageBody>({
     defaultValues: {
