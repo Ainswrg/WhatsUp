@@ -1,4 +1,12 @@
-import { Paper, TextField, Button, Grid, type Theme, Box } from '@mui/material'
+import {
+  Paper,
+  TextField,
+  Button,
+  Grid,
+  type Theme,
+  Box,
+  Typography
+} from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
 import { useEffect, type FC, useRef } from 'react'
@@ -80,7 +88,7 @@ export const ChatWindow: FC = () => {
     mode: 'onChange'
   })
 
-  return (
+  return chatId ? (
     <Paper
       elevation={3}
       className={classes.paper}
@@ -127,6 +135,26 @@ export const ChatWindow: FC = () => {
           Send
         </Button>
       </form>
+    </Paper>
+  ) : (
+    <Paper
+      elevation={3}
+      className={classes.paper}
+      sx={{ background: '#222E35' }}
+    >
+      <Grid
+        justifyContent={'center'}
+        alignItems={'center'}
+        sx={{ display: 'content' }}
+      >
+        <img src='web.png' alt='' style={{ paddingTop: '1rem' }} />
+        <Typography variant={'h5'} sx={{ textAlign: 'center' }}>
+          Web
+        </Typography>
+        <Typography sx={{ textAlign: 'center', paddingTop: '1.2rem' }}>
+          Get and send message
+        </Typography>
+      </Grid>
     </Paper>
   )
 }
