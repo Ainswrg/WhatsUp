@@ -26,7 +26,6 @@ interface INotification {
   receiptId: number
   body: {
     typeWebhook: string
-    chatId: string
     instanceData: {
       idInstance: number
       wid: string
@@ -34,8 +33,25 @@ interface INotification {
     }
     timestamp: number
     idMessage: string
-    status: string
-    sendByApi: boolean
+    senderData: {
+      chatId: string
+      chatName: string
+      sender: string
+      senderName: string
+    }
+    messageData: {
+      typeMessage: string
+      textMessageData: {
+        textMessage: string
+      }
+      extendedTextMessageData: {
+        text: string
+        description: string
+        title: string
+        previewType: string
+        jpegThumbnail: string
+      }
+    }
   }
 }
 interface ChatState {

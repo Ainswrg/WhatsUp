@@ -8,12 +8,11 @@ import { useForm } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { selectChatId } from 'features/AddContact/selectors'
 import { selectIsAuth } from 'features/Auth/selectors'
-import { selectChatHistory } from 'features/Chat/selectors'
+import { selectNotificationLog } from 'features/Chat/selectors'
 
 import {
   deleteNotification,
   fetchNotification,
-  getChatHistory,
   sendMessage
 } from 'features/Chat/slice'
 import { Message } from 'widgets/Message/Message'
@@ -35,22 +34,19 @@ interface MessageBody {
 
 export const ChatWindow: FC = () => {
   const dispatch = useAppDispatch()
-  const chatHistory = useAppSelector(selectChatHistory)
+  const notificationLog = useAppSelector(selectNotificationLog)
   const classes = useStyles()
   const chatId = useAppSelector(selectChatId)
   const isAuth = useAppSelector(selectIsAuth)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  useEffect(() => {
-    if (chatId) {
-      dispatch(getChatHistory(chatId))
-    }
-  }, [chatId])
+  const filteredArr = notificationLog.filter((user) => {
+    return user.body.senderData.chatId === chatId
+  })
 
   useEffect(() => {
     const pollNotifications = async () => {
       const response = await dispatch(fetchNotification()).unwrap()
-      console.log('notification:', response)
 
       if (response?.receiptId) {
         await dispatch(deleteNotification(response.receiptId))
@@ -71,7 +67,6 @@ export const ChatWindow: FC = () => {
 
   const onSubmit = (value: MessageBody) => {
     dispatch(sendMessage(value.message))
-    dispatch(getChatHistory(chatId))
   }
 
   const {
@@ -93,13 +88,21 @@ export const ChatWindow: FC = () => {
     >
       <Grid sx={{ height: '90%' }}>
         <Box sx={{ height: '80vh', overflowY: 'auto' }}>
-          {[...chatHistory].reverse().map((user, id) => (
-            <Message
-              key={id}
-              chatId={user.chatId}
-              textMessage={user.textMessage}
-            />
-          ))}
+          {filteredArr.reverse().map((user) => {
+            const messageData = user?.body?.messageData
+            const message = messageData.hasOwnProperty('textMessageData')
+              ? messageData.textMessageData.textMessage
+              : messageData.extendedTextMessageData.text
+            const isMe = chatId === user?.body?.instanceData?.wid
+            return (
+              <Message
+                key={user?.body?.idMessage}
+                name={user?.body?.senderData?.senderName}
+                message={message}
+                isMe={isMe}
+              />
+            )
+          })}
         </Box>
       </Grid>
 
@@ -112,7 +115,6 @@ export const ChatWindow: FC = () => {
           placeholder='Enter message'
           style={{ flex: 1, marginRight: 8 }}
           {...register('message', {
-            required: 'message is required field!',
             minLength: 1
           })}
         />

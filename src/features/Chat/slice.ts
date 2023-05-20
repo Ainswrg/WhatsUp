@@ -150,7 +150,9 @@ export const chatSlice = createSlice({
         fetchNotification.fulfilled,
         (state: ChatState, action: PayloadAction<INotification>) => {
           state.notification = action.payload
-          state.notificationLog.push(action.payload)
+          if (action.payload?.body?.hasOwnProperty('senderData')) {
+            state.notificationLog.push(action.payload)
+          }
         }
       )
       .addCase(fetchNotification.rejected, (state: ChatState) => {
