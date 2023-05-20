@@ -71,7 +71,7 @@ export const ChatWindow: FC = () => {
     return () => {
       clearInterval(intervalRef.current as NodeJS.Timeout)
     }
-  }, [isAuth])
+  }, [dispatch, isAuth])
 
   const onSubmit = (value: MessageBody) => {
     dispatch(sendMessage(value.message))
