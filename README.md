@@ -11,6 +11,8 @@
      - React-router-dom
      - React-hook-form
    [Green-Api](https://green-api.com)
+## [Presentation](https://ainswrg.github.io/presentation-whatsup/)
+
 ## Prepare and test
 1. Clone repo: `https://github.com/Ainswrg/WhatsUp.git`
 2. Go to folder `WhatsUp`
