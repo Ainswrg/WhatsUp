@@ -4,6 +4,7 @@ import { makeStyles } from '@mui/styles'
 import { type FC } from 'react'
 
 import { IMessage } from 'entities/Message'
+import { extractNumberFromWhatsAppId } from 'shared/extractNumber'
 
 const useStyles = makeStyles((theme: Theme) => ({
   messageBody: {
@@ -26,7 +27,7 @@ const contact = {
 export const Message: FC<IMessage> = ({ senderData, message }) => {
   const classes = useStyles()
 
-  const name = senderData?.sender
+  const name = extractNumberFromWhatsAppId(senderData?.sender)
   const isMe = !(senderData?.sender === senderData.chatId)
   const direction = isMe ? 'row-reverse' : 'row'
 
