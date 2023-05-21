@@ -1,5 +1,9 @@
 export interface IMessage {
-  name: string
+  senderData: {
+    chatId: string
+    chatName: string
+    sender: string
+    senderName: string
+  }
   message: string
-  isMe: boolean
 }

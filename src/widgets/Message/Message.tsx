@@ -23,8 +23,12 @@ const contact = {
   borderRadius: '15px'
 }
 
-export const Message: FC<IMessage> = ({ name, message, isMe }) => {
+export const Message: FC<IMessage> = ({ senderData, message }) => {
   const classes = useStyles()
+
+  const name = senderData?.sender
+  const isMe = !(senderData?.sender === senderData.chatId)
+  const direction = isMe ? 'row-reverse' : 'row'
 
   return (
     <Grid
@@ -32,7 +36,7 @@ export const Message: FC<IMessage> = ({ name, message, isMe }) => {
       alignItems={'center'}
       sx={{
         contact,
-        flexDirection: isMe ? 'row-reverse' : 'row',
+        flexDirection: direction,
         margin: '0.4rem 0'
       }}
     >

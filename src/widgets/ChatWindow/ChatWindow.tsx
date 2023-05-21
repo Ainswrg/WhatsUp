@@ -107,18 +107,17 @@ export const ChatWindow: FC = () => {
     >
       <Grid sx={{ height: '90%' }}>
         <Box sx={{ height: '80vh', overflowY: 'auto' }}>
-          {filteredArr.reverse().map((user) => {
+          {filteredArr.map((user) => {
             const messageData = user?.body?.messageData
             const message = messageData.hasOwnProperty('textMessageData')
               ? messageData.textMessageData.textMessage
               : messageData.extendedTextMessageData.text
-            const isMe = chatId === user?.body?.instanceData?.wid
+            const senderData = user.body?.senderData
             return (
               <Message
                 key={user?.body?.idMessage}
-                name={user?.body?.senderData?.senderName}
+                senderData={senderData}
                 message={message}
-                isMe={isMe}
               />
             )
           })}
@@ -154,6 +153,7 @@ export const ChatWindow: FC = () => {
       sx={{ background: '#222E35' }}
     >
       <Grid
+        container
         justifyContent={'center'}
         alignItems={'center'}
         direction={'column'}
