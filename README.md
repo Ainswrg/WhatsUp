@@ -19,4 +19,4 @@
 3. To install all dependencies use `pnpm install`
 4. Run the app use `pnpm start`
 
-## Screenshot: ![whatsUp-screen]![Screenshot_3](https://github.com/Ainswrg/WhatsUp/assets/78231573/c51ea293-5e48-456c-9315-627656cccc52)
+## Screenshot: ![whatsUp-screen](https://github.com/Ainswrg/WhatsUp/assets/78231573/c51ea293-5e48-456c-9315-627656cccc52)
